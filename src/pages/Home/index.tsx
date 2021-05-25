@@ -1,6 +1,7 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import CoinIcon from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   Container,
   Header,
@@ -22,17 +23,17 @@ import {
 } from './styles';
 import {ScrollView} from 'react-native';
 
-export function Home() {
+const Home = (): JSX.Element => {
   return (
     <Container>
       <Header>
         <Gretting>Olá, Hudson!</Gretting>
         <Config>
           <EyeButton>
-            <Icon name="remove-red-eye" color="#FFF" size={20} />
+            <MaterialIcons name="remove-red-eye" color="#FFF" size={20} />
           </EyeButton>
           <SettingsButton>
-            <Icon name="settings" color="#FFF" size={20} />
+            <MaterialIcons name="settings" color="#FFF" size={20} />
           </SettingsButton>
         </Config>
       </Header>
@@ -45,7 +46,7 @@ export function Home() {
           showsVerticalScrollIndicator={false}>
           <Card activeOpacity={0.9}>
             <CardHeader>
-              <Icon name="credit-card" color="#000" size={30} />
+              <MaterialIcons name="credit-card" color="#000" size={30} />
               <CardHeaderText>Cartão de credito</CardHeaderText>
             </CardHeader>
             <InvoiceText>Fatura atual</InvoiceText>
@@ -57,7 +58,7 @@ export function Home() {
 
           <Card activeOpacity={0.9}>
             <CardHeader>
-              <CoinIcon name="coins" color="#000" size={30} />
+              <FontAwesomeIcons name="coins" color="#000" size={30} />
               <CardHeaderText>Conta</CardHeaderText>
             </CardHeader>
             <InvoiceText>Saldo disponível</InvoiceText>
@@ -66,7 +67,7 @@ export function Home() {
 
           <Card activeOpacity={0.9}>
             <CardHeader>
-              <Icon name="clean-hands" color="#000" size={30} />
+              <MaterialIcons name="clean-hands" color="#000" size={30} />
               <CardHeaderText>Empréstimo</CardHeaderText>
             </CardHeader>
             <InvoiceText>Valor disponível de até</InvoiceText>
@@ -80,27 +81,32 @@ export function Home() {
           showsHorizontalScrollIndicator={false}
           horizontal>
           <SmallerCards>
-            <Icon name="credit-card" color="#fff" size={30} />
+            <MaterialIcons name="credit-card" color="#fff" size={30} />
             <SmallerCardsText>Trasferir</SmallerCardsText>
           </SmallerCards>
           <SmallerCards>
-            <Icon name="credit-card" color="#fff" size={30} />
+            <MaterialCommunityIcons name="piggy-bank" color="#fff" size={30} />
             <SmallerCardsText>Dinheiro guardado</SmallerCardsText>
           </SmallerCards>
           <SmallerCards>
-            <Icon name="credit-card" color="#fff" size={30} />
+            <MaterialIcons name="credit-card" color="#fff" size={30} />
             <SmallerCardsText>Ajustar limite</SmallerCardsText>
           </SmallerCards>
           <SmallerCards>
-            <Icon name="credit-card" color="#fff" size={30} />
+            <MaterialIcons name="block" color="#fff" size={30} />
             <SmallerCardsText>Bloquear</SmallerCardsText>
           </SmallerCards>
           <SmallerCards>
-            <Icon name="credit-card" color="#fff" size={30} />
+            <MaterialIcons
+              name="supervised-user-circle"
+              color="#fff"
+              size={30}
+            />
             <SmallerCardsText>Indicar amigos</SmallerCardsText>
           </SmallerCards>
         </ScrollView>
       </Footer>
     </Container>
   );
-}
+};
+export default Home;

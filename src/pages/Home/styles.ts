@@ -100,7 +100,7 @@ export const SmallerCards = styled.TouchableOpacity`
   margin-right: 10px;
   height: 80px;
   padding-left: 5px;
-  justify-content: center;
+  justify-content: space-evenly;
 `;
 export const SmallerCardsText = styled.Text`
   color: #fff;
