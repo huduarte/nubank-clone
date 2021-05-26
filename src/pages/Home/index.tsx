@@ -1,4 +1,5 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,6 +25,11 @@ import {
 import {ScrollView} from 'react-native';
 
 const Home = (): JSX.Element => {
+  const {navigate} = useNavigation();
+  function handleClickBillInfo() {
+    navigate('BillInfo');
+  }
+
   return (
     <Container>
       <Header>
@@ -56,7 +62,7 @@ const Home = (): JSX.Element => {
             </CreditLimitText>
           </Card>
 
-          <Card activeOpacity={0.9}>
+          <Card onPress={handleClickBillInfo} activeOpacity={0.9}>
             <CardHeader>
               <FontAwesomeIcons name="coins" color="#000" size={30} />
               <CardHeaderText>Conta</CardHeaderText>
