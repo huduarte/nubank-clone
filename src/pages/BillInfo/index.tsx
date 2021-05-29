@@ -1,4 +1,5 @@
 import React from 'react';
+import {ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -28,12 +29,14 @@ import {
   HistoryValue,
   HistoryDate,
 } from './styles';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const BillInfo = (): JSX.Element => {
-  const {goBack} = useNavigation();
+  const {goBack, navigate} = useNavigation();
   function handlePressToBack() {
     goBack();
+  }
+  function handlePressSavedMoney() {
+    navigate('SavedMoney');
   }
 
   return (
@@ -58,7 +61,7 @@ const BillInfo = (): JSX.Element => {
           <BalanceText>Saldo disponível</BalanceText>
           <BalanceValue>R$ 3.200,00</BalanceValue>
         </Balance>
-        <BalanceButton>
+        <BalanceButton onPress={handlePressSavedMoney}>
           <MaterialCommunityIcons name="piggy-bank" color="#000" size={30} />
           <BalanceButtonView>
             <BalanceButtonText>Guardar dinheiro</BalanceButtonText>
@@ -105,26 +108,39 @@ const BillInfo = (): JSX.Element => {
             <SmallerCardsText>Empréstimos</SmallerCardsText>
           </SmallerCards>
         </BalanceOptions>
-        <BalanceHistory>
-          <FontAwesomeIcons name="money-bill" color="#9846be" size={25} />
-          <HistoryInfo>
-            <HistoryTitle>Transferência Recebida</HistoryTitle>
-            <HistoryName>Hudson Duarte</HistoryName>
-            <HistoryValue>R$ 200,00</HistoryValue>
-          </HistoryInfo>
+        <ScrollView>
+          <BalanceHistory>
+            <FontAwesomeIcons name="money-bill" color="#9846be" size={25} />
+            <HistoryInfo>
+              <HistoryTitle>Transferência Recebida</HistoryTitle>
+              <HistoryName>Hudson Duarte</HistoryName>
+              <HistoryValue>R$ 200,00</HistoryValue>
+            </HistoryInfo>
 
-          <HistoryDate>Hoje</HistoryDate>
-        </BalanceHistory>
-        <BalanceHistory>
-          <FontAwesomeIcons name="money-bill" color="#9846be" size={25} />
-          <HistoryInfo>
-            <HistoryTitle>Transferência Recebida</HistoryTitle>
-            <HistoryName>Maria Clara</HistoryName>
-            <HistoryValue>R$ 200,00</HistoryValue>
-          </HistoryInfo>
+            <HistoryDate>Hoje</HistoryDate>
+          </BalanceHistory>
+          <BalanceHistory>
+            <FontAwesomeIcons name="money-bill" color="#9846be" size={25} />
+            <HistoryInfo>
+              <HistoryTitle>Transferência Recebida</HistoryTitle>
+              <HistoryName>Maria Clara</HistoryName>
+              <HistoryValue>R$ 200,00</HistoryValue>
+            </HistoryInfo>
 
-          <HistoryDate>Hoje</HistoryDate>
-        </BalanceHistory>
+            <HistoryDate>Hoje</HistoryDate>
+          </BalanceHistory>
+
+          <BalanceHistory>
+            <FontAwesomeIcons name="money-bill" color="#9846be" size={25} />
+            <HistoryInfo>
+              <HistoryTitle>Transferência Recebida</HistoryTitle>
+              <HistoryName>Maria Clara</HistoryName>
+              <HistoryValue>R$ 200,00</HistoryValue>
+            </HistoryInfo>
+
+            <HistoryDate>Hoje</HistoryDate>
+          </BalanceHistory>
+        </ScrollView>
       </Content>
     </Container>
   );

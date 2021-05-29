@@ -28,7 +28,7 @@ export const EarningsText = styled.Text`
 `;
 
 export const Content = styled.View`
-  height: 70%;
+  flex: 1;
 `;
 export const Balance = styled.View`
   margin-top: 60px;
@@ -48,6 +48,7 @@ export const BalanceButton = styled.TouchableOpacity`
   flex-direction: row;
   margin-top: 40px;
   padding: 0 40px 0 40px;
+  align-items: center;
 `;
 
 export const BalanceButtonView = styled.View``;
