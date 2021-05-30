@@ -3,6 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useMoney} from '../../hooks/money';
 import {
   Container,
   Header,
@@ -25,6 +26,7 @@ import {
 import {ScrollView} from 'react-native';
 
 const Home = (): JSX.Element => {
+  const {money} = useMoney();
   const {navigate} = useNavigation();
   function handleClickBillInfo() {
     navigate('BillInfo');
@@ -68,7 +70,7 @@ const Home = (): JSX.Element => {
               <CardHeaderText>Conta</CardHeaderText>
             </CardHeader>
             <InvoiceText>Saldo disponível</InvoiceText>
-            <InvoiceValue>R$ 3.200,00</InvoiceValue>
+            <InvoiceValue>R$ {money}</InvoiceValue>
           </Card>
 
           <Card activeOpacity={0.9}>

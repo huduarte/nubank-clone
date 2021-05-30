@@ -2,15 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {
   Container,
   Content,
   Header,
   Icons,
-  SavedMoneyValue,
   Title,
+  SaveMoneyAmount,
+  SaveMoneyInput,
+  SavedMoney,
+  ChooseFolder,
   Folder,
   FolderCard,
   CardHeader,
@@ -18,13 +20,8 @@ import {
   FolderTitle,
   FolderAmount,
   FolderGoal,
-  Options,
-  NewFolder,
-  NewFolderText,
-  SaveMoney,
-  SaveMoneyText,
 } from './styles';
-import {Text, FlatList} from 'react-native';
+import {Text, FlatList, Alert} from 'react-native';
 import {useMoney} from '../../hooks/money';
 
 interface FolderProps {
@@ -33,19 +30,13 @@ interface FolderProps {
   amount: number;
   goal: number;
 }
-const SavedMoney = (): JSX.Element => {
-  const {savedMoney} = useMoney();
+const SaveMoney = (): JSX.Element => {
+  const {money, handleSaveMoney} = useMoney();
   const [folders, setFolders] = useState<FolderProps[]>([]);
+  const [amount, setAmount] = useState(0);
   const {goBack, navigate} = useNavigation();
   function handlePressToBack() {
     goBack();
-  }
-
-  function handlePressCreateNewFolder() {
-    navigate('NewFolder');
-  }
-  function handlePressSaveMoney() {
-    navigate('SaveMoney');
   }
 
   async function getFolders() {
@@ -54,6 +45,44 @@ const SavedMoney = (): JSX.Element => {
     if (folders) {
       setFolders(folders);
     }
+  }
+
+  async function handleChooseFolder(folderId: string, folderName: string) {
+    if (amount > money) {
+      Alert.alert(
+        'Erro ao guardar o seu dinheiro!',
+        'Você não possuí a quantidade de dinheiro solicitada.',
+      );
+      return;
+    }
+    if (amount === 0) {
+      return;
+    } else {
+      const data = await AsyncStorage.getItem('@nuclone:folder');
+      if (data?.length !== 0) {
+        const foldersArr = data ? JSON.parse(data) : [];
+        const addMoneyToFolder = foldersArr.map(folder => {
+          if (folder.id === folderId) {
+            return {
+              ...folder,
+              amount: folder.amount + amount,
+            };
+          } else {
+            return folder;
+          }
+        });
+
+        handleSaveMoney(amount);
+        await AsyncStorage.setItem(
+          '@nuclone:folder',
+          JSON.stringify(addMoneyToFolder),
+        );
+      }
+    }
+    navigate('SaveMoneyConfirmation', {
+      amount: amount,
+      title: folderName,
+    });
   }
 
   useEffect(() => {
@@ -66,22 +95,35 @@ const SavedMoney = (): JSX.Element => {
           <Icons onPress={handlePressToBack}>
             <AntDesign name="left" color="#fff" size={25} />
           </Icons>
-          <Title>{`DINHEIRO GUARDADO ${'\n'} TOTAL`}</Title>
+          <Title>Valor a guardar:</Title>
           <AntDesign name="questioncircleo" color="#fff" size={25} />
         </Header>
-        <SavedMoneyValue>R$ {savedMoney}</SavedMoneyValue>
+        <SaveMoneyAmount>
+          <SaveMoneyInput
+            keyboardType="numeric"
+            onChangeText={text => {
+              setAmount(Number(text));
+            }}
+          />
+          <SavedMoney>Saldo conta corrente: {money}</SavedMoney>
+          <ChooseFolder>Enviar para:</ChooseFolder>
+        </SaveMoneyAmount>
         <Folder>
           {folders ? (
             <FlatList
               data={folders}
               renderItem={({item}) => (
-                <FolderCard key={item.id}>
+                <FolderCard
+                  key={item.id}
+                  onPress={() => handleChooseFolder(item.id, item.title)}>
                   <CardHeader>
                     <FolderTitle>{item.title}</FolderTitle>
                     <FolderAmount>R$ {item.amount}</FolderAmount>
                   </CardHeader>
                   <CardFooter>
                     <FolderGoal>meta: R$ {item.goal}</FolderGoal>
+
+                    <AntDesign name="right" color="#000" size={25} />
                   </CardFooter>
                 </FolderCard>
               )}
@@ -92,22 +134,8 @@ const SavedMoney = (): JSX.Element => {
             <Text>Ainda não existem pastas cadastradas</Text>
           )}
         </Folder>
-        <Options>
-          <NewFolder onPress={handlePressCreateNewFolder}>
-            <MaterialCommunityIcons
-              name="folder-multiple-plus"
-              color="#9846be"
-              size={30}
-            />
-            <NewFolderText>Criar nova pasta</NewFolderText>
-          </NewFolder>
-          <SaveMoney onPress={handlePressSaveMoney}>
-            <MaterialCommunityIcons name="piggy-bank" color="#000" size={30} />
-            <SaveMoneyText>Guardar dinheiro</SaveMoneyText>
-          </SaveMoney>
-        </Options>
       </Content>
     </Container>
   );
 };
-export default SavedMoney;
+export default SaveMoney;
