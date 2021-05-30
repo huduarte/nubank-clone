@@ -1,5 +1,9 @@
 import styled from 'styled-components/native';
 
+interface ProgressiveBar {
+  width: number;
+}
+
 export const Container = styled.View`
   flex: 1;
   background-color: #ffffff;
@@ -75,6 +79,18 @@ export const FolderAmount = styled.Text`
 `;
 export const FolderGoal = styled.Text`
   color: #9e9e9e;
+`;
+
+export const FolderProgressiveBar = styled.View`
+  position: relative;
+  background-color: #9e9e9e;
+  width: 120px;
+  height: 20px;
+`;
+export const FolderProgressiveBarAdvance = styled.View<ProgressiveBar>`
+  height: 100%;
+  background-color: #9846be;
+  width: ${({width}) => `${width}%`};
 `;
 
 export const Options = styled.View`

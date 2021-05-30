@@ -18,6 +18,8 @@ import {
   FolderTitle,
   FolderAmount,
   FolderGoal,
+  FolderProgressiveBar,
+  FolderProgressiveBarAdvance,
   Options,
   NewFolder,
   NewFolderText,
@@ -56,6 +58,15 @@ const SavedMoney = (): JSX.Element => {
     }
   }
 
+  function getPercentOfProgressiveBar(
+    meta_total: number,
+    meta_cumprida: number,
+  ) {
+    let width = 0;
+    width = (meta_cumprida * 100) / meta_total;
+    return width;
+  }
+
   useEffect(() => {
     getFolders();
   }, []);
@@ -82,6 +93,14 @@ const SavedMoney = (): JSX.Element => {
                   </CardHeader>
                   <CardFooter>
                     <FolderGoal>meta: R$ {item.goal}</FolderGoal>
+                    <FolderProgressiveBar>
+                      <FolderProgressiveBarAdvance
+                        width={getPercentOfProgressiveBar(
+                          item.goal,
+                          item.amount,
+                        )}
+                      />
+                    </FolderProgressiveBar>
                   </CardFooter>
                 </FolderCard>
               )}
