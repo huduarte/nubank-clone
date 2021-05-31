@@ -21,7 +21,7 @@ import {
   FolderAmount,
   FolderGoal,
 } from './styles';
-import {Text, FlatList, Alert} from 'react-native';
+import {Text, FlatList, Alert, ScrollView} from 'react-native';
 import {useMoney} from '../../hooks/money';
 
 interface FolderProps {
@@ -51,11 +51,19 @@ const SaveMoney = (): JSX.Element => {
     folderId: string,
     folderName: string,
     folderGoal: number,
+    folderAmount: number,
   ) {
     if (amount > money) {
       Alert.alert(
         'Erro ao guardar o seu dinheiro!',
         'Você não possuí a quantidade de dinheiro solicitada.',
+      );
+      return;
+    }
+    if (amount > folderGoal - folderAmount) {
+      Alert.alert(
+        'Erro ao guardar o seu dinheiro!',
+        'O valor desejado ultrapassa o valor de meta da pasta.',
       );
       return;
     }
@@ -101,53 +109,60 @@ const SaveMoney = (): JSX.Element => {
   }, []);
   return (
     <Container>
-      <Content>
-        <Header>
-          <Icons onPress={handlePressToBack}>
-            <AntDesign name="left" color="#fff" size={25} />
-          </Icons>
-          <Title>Valor a guardar:</Title>
-          <AntDesign name="questioncircleo" color="#fff" size={25} />
-        </Header>
-        <SaveMoneyAmount>
-          <SaveMoneyInput
-            keyboardType="numeric"
-            onChangeText={text => {
-              setAmount(Number(text));
-            }}
-          />
-          <SavedMoney>Saldo conta corrente: {money}</SavedMoney>
-          <ChooseFolder>Enviar para:</ChooseFolder>
-        </SaveMoneyAmount>
-        <Folder>
-          {folders ? (
-            <FlatList
-              data={folders}
-              renderItem={({item}) => (
-                <FolderCard
-                  key={item.id}
-                  onPress={() =>
-                    handleChooseFolder(item.id, item.title, item.goal)
-                  }>
-                  <CardHeader>
-                    <FolderTitle>{item.title}</FolderTitle>
-                    <FolderAmount>R$ {item.amount}</FolderAmount>
-                  </CardHeader>
-                  <CardFooter>
-                    <FolderGoal>meta: R$ {item.goal}</FolderGoal>
-
-                    <AntDesign name="right" color="#000" size={25} />
-                  </CardFooter>
-                </FolderCard>
-              )}
-              showsVerticalScrollIndicator={false}
-              contentContainerStyle={{flex: 1}}
+      <ScrollView>
+        <Content>
+          <Header>
+            <Icons onPress={handlePressToBack}>
+              <AntDesign name="left" color="#fff" size={25} />
+            </Icons>
+            <Title>Valor a guardar:</Title>
+            <AntDesign name="questioncircleo" color="#fff" size={25} />
+          </Header>
+          <SaveMoneyAmount>
+            <SaveMoneyInput
+              keyboardType="numeric"
+              onChangeText={text => {
+                setAmount(Number(text));
+              }}
             />
-          ) : (
-            <Text>Ainda não existem pastas cadastradas</Text>
-          )}
-        </Folder>
-      </Content>
+            <SavedMoney>Saldo conta corrente: {money}</SavedMoney>
+            <ChooseFolder>Enviar para:</ChooseFolder>
+          </SaveMoneyAmount>
+          <Folder>
+            {folders ? (
+              <FlatList
+                data={folders}
+                renderItem={({item}) => (
+                  <FolderCard
+                    key={item.id}
+                    onPress={() =>
+                      handleChooseFolder(
+                        item.id,
+                        item.title,
+                        item.goal,
+                        item.amount,
+                      )
+                    }>
+                    <CardHeader>
+                      <FolderTitle>{item.title}</FolderTitle>
+                      <FolderAmount>R$ {item.amount}</FolderAmount>
+                    </CardHeader>
+                    <CardFooter>
+                      <FolderGoal>meta: R$ {item.goal}</FolderGoal>
+
+                      <AntDesign name="right" color="#000" size={25} />
+                    </CardFooter>
+                  </FolderCard>
+                )}
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{flex: 1}}
+              />
+            ) : (
+              <Text>Ainda não existem pastas cadastradas</Text>
+            )}
+          </Folder>
+        </Content>
+      </ScrollView>
     </Container>
   );
 };

@@ -88,7 +88,7 @@ const SavedMoney = (): JSX.Element => {
         </Header>
         <SavedMoneyValue>R$ {savedMoney}</SavedMoneyValue>
         <Folder>
-          {folders ? (
+          {folders && (
             <FlatList
               data={folders}
               renderItem={({item}) => (
@@ -115,10 +115,7 @@ const SavedMoney = (): JSX.Element => {
                 </FolderCard>
               )}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={{flex: 1}}
             />
-          ) : (
-            <Text>Ainda não existem pastas cadastradas</Text>
           )}
         </Folder>
         <Options>
