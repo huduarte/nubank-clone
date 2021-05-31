@@ -38,9 +38,9 @@ interface FolderProps {
 const SavedMoney = (): JSX.Element => {
   const {savedMoney} = useMoney();
   const [folders, setFolders] = useState<FolderProps[]>([]);
-  const {goBack, navigate} = useNavigation();
+  const {navigate} = useNavigation();
   function handlePressToBack() {
-    goBack();
+    navigate('BillInfo');
   }
 
   function handlePressCreateNewFolder() {
@@ -67,6 +67,12 @@ const SavedMoney = (): JSX.Element => {
     return width;
   }
 
+  function handlePressFolderDescription(folder: FolderProps) {
+    navigate('FolderDescription', {
+      folder,
+    });
+  }
+
   useEffect(() => {
     getFolders();
   }, []);
@@ -86,7 +92,11 @@ const SavedMoney = (): JSX.Element => {
             <FlatList
               data={folders}
               renderItem={({item}) => (
-                <FolderCard key={item.id}>
+                <FolderCard
+                  onPress={() => {
+                    handlePressFolderDescription(item);
+                  }}
+                  key={item.id}>
                   <CardHeader>
                     <FolderTitle>{item.title}</FolderTitle>
                     <FolderAmount>R$ {item.amount}</FolderAmount>

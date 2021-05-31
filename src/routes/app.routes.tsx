@@ -7,6 +7,7 @@ import SavedMoney from '../pages/SavedMoney';
 import NewFolder from '../pages/NewFolder';
 import SaveMoney from '../pages/SaveMoney';
 import SaveMoneyConfirmation from '../pages/SaveMoneyConfirmation';
+import FolderDescription from '../pages/FolderDescription';
 
 const App = createStackNavigator();
 
@@ -25,6 +26,7 @@ const AppRoutes: React.FC = () => (
       name="SaveMoneyConfirmation"
       component={SaveMoneyConfirmation}
     />
+    <App.Screen name="FolderDescription" component={FolderDescription} />
   </App.Navigator>
 );
 

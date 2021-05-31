@@ -47,11 +47,22 @@ const SaveMoney = (): JSX.Element => {
     }
   }
 
-  async function handleChooseFolder(folderId: string, folderName: string) {
+  async function handleChooseFolder(
+    folderId: string,
+    folderName: string,
+    folderGoal: number,
+  ) {
     if (amount > money) {
       Alert.alert(
         'Erro ao guardar o seu dinheiro!',
         'Você não possuí a quantidade de dinheiro solicitada.',
+      );
+      return;
+    }
+    if (amount > folderGoal) {
+      Alert.alert(
+        'Erro ao guardar o seu dinheir',
+        'A quantidade solicitada é maior que a meta da sua pasta.',
       );
       return;
     }
@@ -115,7 +126,9 @@ const SaveMoney = (): JSX.Element => {
               renderItem={({item}) => (
                 <FolderCard
                   key={item.id}
-                  onPress={() => handleChooseFolder(item.id, item.title)}>
+                  onPress={() =>
+                    handleChooseFolder(item.id, item.title, item.goal)
+                  }>
                   <CardHeader>
                     <FolderTitle>{item.title}</FolderTitle>
                     <FolderAmount>R$ {item.amount}</FolderAmount>
