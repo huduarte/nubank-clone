@@ -34,9 +34,9 @@ const SaveMoney = (): JSX.Element => {
   const {money, handleSaveMoney} = useMoney();
   const [folders, setFolders] = useState<FolderProps[]>([]);
   const [amount, setAmount] = useState(0);
-  const {goBack, navigate} = useNavigation();
+  const {navigate} = useNavigation();
   function handlePressToBack() {
-    goBack();
+    navigate('SaveMoney');
   }
 
   async function getFolders() {

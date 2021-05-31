@@ -27,7 +27,7 @@ interface FolderProps {
 }
 
 const NewFolder = (): JSX.Element => {
-  const {navigate} = useNavigation();
+  const {navigate, reset} = useNavigation();
   const [folderName, setFolderName] = useState('');
   const [folderGoal, setFolderGoal] = useState(0);
 
@@ -62,7 +62,14 @@ const NewFolder = (): JSX.Element => {
       await AsyncStorage.setItem('@nuclone:folder', JSON.stringify(goalsArray));
     }
 
-    navigate('BillInfo');
+    reset({
+      index: 0,
+      routes: [
+        {
+          name: 'BillInfo',
+        },
+      ],
+    });
   }
 
   return (

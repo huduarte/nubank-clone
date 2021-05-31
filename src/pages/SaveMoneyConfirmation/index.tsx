@@ -20,11 +20,18 @@ interface RouteParams {
 }
 
 const SaveMoneyConfirmation = (): JSX.Element => {
-  const {navigate} = useNavigation();
+  const {reset} = useNavigation();
   const {params} = useRoute();
   const routeParams = params as RouteParams;
   function handleConfirmIcon() {
-    navigate('BillInfo');
+    reset({
+      index: 0,
+      routes: [
+        {
+          name: 'BillInfo',
+        },
+      ],
+    });
   }
 
   return (
